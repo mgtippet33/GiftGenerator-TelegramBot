@@ -24,3 +24,11 @@ class Criteria:
 
     def AddInterests(self, interest):
         self.interests.append(interest)
+
+    def ResetCriteria(self):
+        self.userid = None
+        self.gender = None
+        self.age = None
+        self.link = None
+        self.holiday = None
+        self.interests = []
