@@ -23,4 +23,4 @@ class Criteria:
         self.holiday = holiday
 
     def AddInterests(self, interest):
-        self.interests.pop(interest)
+        self.interests.append(interest)
