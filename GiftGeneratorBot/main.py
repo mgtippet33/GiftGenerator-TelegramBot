@@ -174,7 +174,7 @@ def holidayQuestion(userid):
 def interestQuestion(userid, first = False):
     markup = interestsMarkup()
     if first is True:
-        bot.send_message(userid, "Які у людини інтереси?\nМожна обрати декілька варіантів.", parse_mode='html', reply_markup=markup)
+        bot.send_message(userid, "Які у людини інтереси?\nМожна обрати декілька варіантів", parse_mode='html', reply_markup=markup)
     elif len(criteria.interests) != 0:
         msg = "Ви обрали такі інтереси: "
         for interest in interests:
