@@ -7,8 +7,8 @@ import db
 bot = telebot.TeleBot(TOKEN)
 criteria = Criteria()
 interests = { "Спорт \U000026BD": True, "Фотографія \U0001F4F7": True, "Соціальні мережі \U0001F4F1": True, "Мода \U0001F457": True,
-             "Подорожі \U00002708": True, "Аніме \U0001F1F0\U0001F1F7": True, "Музика \U0001F3B5": True, "Кіно \U0001F4FA": True,  "Комікси \U0001F4D6": True,
-             "Програмування \U0001F5A5": True }
+             "Подорожі \U00002708": True, "Аніме \U0001F1F0\U0001F1F7": True, "Музика \U0001F3B8": True, "Кіно \U0001F39E": True,  "Комікси \U0001F4D6": True,
+             "Технології \U0001F5A5": True }
 holidays = ["День народження", "Новий рік", "День закоханих", "14 жовтня", "8 березня", "Інше"]
 
 
@@ -18,7 +18,7 @@ def start(message):
     firstName = message.from_user.first_name
     insertAnswer = db.insert(userid, message.from_user.username, firstName)
     if insertAnswer is True:
-        mess = f"Привіт, {firstName} \U0001F44B. \n\nЯ - GiftGeneratorBot \U0001F381\nТепер я твій власний помічник у виборі подарунків.\n\nОтже почнемо обирати перший подарунок\U0001F609"
+        mess = f"Привіт, {firstName} \U0001F44B. \n\nЯ - GiftGeneratorBot \U0001F381\nТепер я твій власний помічник у виборі подарунків.\n\nОтже, почнемо обирати перший подарунок\U0001F609"
         bot.send_message(userid, mess)
     db.updateState(userid, 1)
     criteria.ResetCriteria()
@@ -55,9 +55,9 @@ def chooseState(message):
                                  "Щоб підібрати подарунок - натискай на /start", parse_mode='html',
                          reply_markup=markup)
     elif state == 1:
-        if messageText == "Чоловіку \U0001F64D\U0000200D\U00002642\U0000FE0F":
+        if messageText == "Чоловіку \U0001F481\U0000200D\U00002642\U0000FE0F":
             criteria.SetGender("Чоловік")
-        elif messageText == "Жінці \U0001F64D\U0000200D\U00002640\U0000FE0F":
+        elif messageText == "Жінці \U0001F481\U0000200D\U00002640\U0000FE0F":
             criteria.SetGender("Жінка")
         elif messageText == "Інша \U00002B50":
             criteria.SetGender("Інша")
@@ -128,11 +128,11 @@ def chooseState(message):
 
 def genderQuestion(userid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3, one_time_keyboard=True)
-    btn1 = types.KeyboardButton("Чоловіку \U0001F64D\U0000200D\U00002642\U0000FE0F")
+    btn1 = types.KeyboardButton("Чоловіку \U0001F481\U0000200D\U00002642\U0000FE0F")
     btn2 = types.KeyboardButton("Інша \U00002B50")
-    btn3 = types.KeyboardButton("Жінці \U0001F64D\U0000200D\U00002640\U0000FE0F")
+    btn3 = types.KeyboardButton("Жінці \U0001F481\U0000200D\U00002640\U0000FE0F")
     markup.add(btn1, btn2, btn3)
-    bot.send_message(userid, "Кому ти обираєшь подарунок?", parse_mode='html', reply_markup=markup)
+    bot.send_message(userid, "Кому ти обираєш подарунок?", parse_mode='html', reply_markup=markup)
 
 
 def ageQuestion(userid):
@@ -144,8 +144,8 @@ def linkQuestion(userid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     skipButton = types.KeyboardButton("Пропустити")
     markup.row(skipButton)
-    bot.send_message(userid, "Ця людина користується соціальними мережами?\nЯкщо <b>так</b>, то можете залишити посилання на "
-                             "сторінку Facebook або Twitter\n\nЯкщо бажаєте пропустити це питання, то натиснить кнопку нижче\U0001F614", parse_mode='html', reply_markup=markup)
+    bot.send_message(userid, "Ця людина користується соціальними мережами?\U0001F4F1\n- Якщо <b>так</b>, то можете залишити посилання на "
+                             "сторінку Facebook або Twitter.\n- Якщо <b>ні</b>, то натисніть кнопку нижче\U0001F447", parse_mode='html', reply_markup=markup)
 
 
 def holidayQuestion(userid):
@@ -174,7 +174,7 @@ def holidayQuestion(userid):
 def interestQuestion(userid, first = False):
     markup = interestsMarkup()
     if first is True:
-        bot.send_message(userid, "Які в людині інтереси?\nМожна обрати декілька варіантів", parse_mode='html', reply_markup=markup)
+        bot.send_message(userid, "Які у людини інтереси?\nМожна обрати декілька варіантів", parse_mode='html', reply_markup=markup)
     elif len(criteria.interests) != 0:
         msg = "Ви обрали такі інтереси: "
         for interest in interests:
@@ -212,8 +212,8 @@ def interestsMarkup():
 
 
 def errorMessage(userid, mode="default"):
-    errmsg = "Вибачте, я так вас не розумію \U0001F614\n" \
-             "Можете обрати один із варіантів знизу?\n" \
+    errmsg = "Вибачте, я вас не розумію \U0001F614\n" \
+             "Можете обрати один із варіантів знизу?\U0001F447\n" \
              "Якщо ви їх не бачите, то натисніть там на іконку з чотирма квадратиками \U0001F643"
     if mode == "age-outside":
         errmsg = "Вибачте, але необхідно вказати вік у діапазоні від 1 до 100 \U0001F614"
