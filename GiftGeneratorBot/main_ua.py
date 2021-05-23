@@ -1,5 +1,7 @@
 import telebot
 from telebot import types
+
+from GiftGeneratorBot.search import searchGift
 from config import TOKEN
 from UserCriteria import Criteria
 import db
@@ -109,14 +111,11 @@ def chooseState(message):
             holidayQuestion(userid)
     elif state == 5:
         if messageText[:-2] == "Знайти" and len(criteria.interests) != 0:
+            result = searchGift(criteria)
             db.updateState(userid, 0)
             resetInterests()
-            # Test Code
-            markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-            startButton = types.KeyboardButton("/start")
-            markup.row(startButton)
-            bot.send_message(userid, "Щоб ще раз підібрати подарунок - натискай на /start", parse_mode='html', reply_markup=markup)
-            # Test Code
+            bot.send_message(userid, result, parse_mode='html')
+            goStart(userid)
         else:
             if interests.get(messageText) is not None:
                 criteria.AddInterests(messageText[:-2])
@@ -128,6 +127,14 @@ def chooseState(message):
             else:
                 errorMessage(userid)
                 interestQuestion(userid)
+
+
+def goStart(userid):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    startButton = types.KeyboardButton("/start")
+    markup.row(startButton)
+    bot.send_message(userid, "Щоб ще раз підібрати подарунок - натискай на /start", parse_mode='html',
+                     reply_markup=markup)
 
 
 def genderQuestion(userid):
