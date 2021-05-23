@@ -20,12 +20,12 @@ def searchGift(criteria: UserCriteria):
     result = "Упс, щось пішло не так.\nДавай спробуємо підібрати подарунок заново\nНатискай /start"
     if response.status_code == 200:
         json_response = response.json()
-        result = "Знайдені варіанті\n\n"
+        result = "\U0001F539Знайдені варіанти:\n\n"
         for item in json_response['data']:
-            result += "Назва: " + item['name'] + '\n'
-            result += f"<a href=\"{item['link']}\">Посилання на подарунок</a>\n"
-            result += "Ціна: " + str(item['price']) + 'грн\n'
-            result += "Рейтинг подарунку: " + str(item['rate']) + '%\n'
+            result += "\U0001F538Назва: " + item['name'] + '\n'
+            result += f"<a href=\"{item['link']}\">\U0001F517Посилання на подарунок</a>\n"
+            result += "\U0001F4B5Ціна: " + str(item['price']) + 'грн\n'
+            result += "\U0001F4F6Рейтинг подарунку: " + str(item['rate']) + '%\n'
             result += "\n"
     return result
 

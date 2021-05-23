@@ -85,7 +85,7 @@ def chooseState(message):
         startButton = types.KeyboardButton("/start")
         markup.row(startButton)
         bot.send_message(userid, "Вибач, я так не розумію \U0001F614\n"
-                                 "Щоб підібрати подарунок - натискай на /start", parse_mode='html',
+                                 "Щоб підібрати подарунок - натискай на /start\U0001F448", parse_mode='html',
                          reply_markup=markup)
     elif state == 1:
         if messageText == "Чоловіку \U0001F481\U0000200D\U00002642\U0000FE0F":
@@ -160,7 +160,7 @@ def goStart(userid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     startButton = types.KeyboardButton("/start")
     markup.row(startButton)
-    bot.send_message(userid, "Щоб ще раз підібрати подарунок - натискай на /start", parse_mode='html',
+    bot.send_message(userid, "Щоб ще раз підібрати подарунок - натискай на /start\U0001F448", parse_mode='html',
                      reply_markup=markup)
 
 
@@ -183,7 +183,7 @@ def linkQuestion(userid):
     skipButton = types.KeyboardButton("Пропустити")
     markup.row(skipButton)
     bot.send_message(userid, "Ця людина користується соціальними мережами?\U0001F4F1\n- Якщо <b>так</b>, то можете залишити посилання на "
-                             "сторінку Facebook або Twitter.\n- Якщо <b>ні</b>, то натисніть кнопку нижче\U0001F447", parse_mode='html', reply_markup=markup)
+                             "сторінку Facebook або Twitter\U0001F517\n- Якщо <b>ні</b>, то натисніть кнопку нижче\U0001F447", parse_mode='html', reply_markup=markup)
 
 
 def holidayQuestion(userid):
@@ -206,7 +206,7 @@ def holidayQuestion(userid):
         lastRow = False
     if lastRow is True:
         markup.row(sixthButton)
-    bot.send_message(userid, "З якої нагоди даруєш подарунок?", parse_mode='html', reply_markup=markup)
+    bot.send_message(userid, "З якої нагоди даруєш подарунок?\U0001F389", parse_mode='html', reply_markup=markup)
 
 
 def interestQuestion(userid, first = False):
