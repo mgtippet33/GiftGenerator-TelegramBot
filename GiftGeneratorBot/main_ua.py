@@ -1,10 +1,16 @@
+import asyncio
+import datetime
+
 import telebot
 from telebot import types
 
-from GiftGeneratorBot.search import searchGift
+from GiftGeneratorBot.search import searchGift, checkHolidays
 from config import TOKEN
 from UserCriteria import Criteria
 import db
+
+
+tb = telebot.AsyncTeleBot(TOKEN)
 
 bot = telebot.TeleBot(TOKEN)
 criteria = Criteria()
@@ -16,6 +22,27 @@ interests = { "Спорт \U0001F3C3\U0000200D\U00002642\U0000FE0F": True, "Фо
               "Боротьба \U0001F93C\U0000200D\U00002642\U0000FE0F": True, "Футбол \U000026BD": True, "Японія \U0001F1EF\U0001F1F5": True, "BTS \U0001F3B5": True}
 
 holidays = ["День народження", "Новий рік", "День закоханих", "14 жовтня", "8 березня", "Інше"]
+
+
+async def my_sleep_func():
+    t = datetime.datetime.today()
+    future = datetime.datetime(t.year, t.month, t.day, 2, 0)
+    if t.hour >= 2:
+        future += datetime.timedelta(days=1)
+    await asyncio.sleep((future - t).seconds)
+
+
+async def checkHoliday():
+    while True:
+        result = checkHolidays()
+        if result is not None:
+            users = db.getUsers()
+            for user in users:
+                tb.send_message(user[0], result)
+        await my_sleep_func()
+
+
+asyncio.run(checkHoliday())
 
 
 @bot.message_handler(commands=['start'])
@@ -242,6 +269,5 @@ def checkLink(link):
     if link.find("facebook") != -1 or link.find("twitter.com") != -1:
         return True
     return False
-
 
 bot.polling()
